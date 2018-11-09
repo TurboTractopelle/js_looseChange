@@ -1,24 +1,32 @@
 function looseChange(cents) {
- 
-  let j=0, k=0, l=0
-  let value = Math.floor(cents)
+  let coinsValue = [25, 10, 5, 1]; // q, d, n, p
+  let coins = [0, 0, 0, 0]; // q, d, n, p
+  let value;
 
-  let conv = {'Pennies': 1, 'Nickels': 5, 'Dimes': 10, 'Quarters': 25}
+  const getNumber = function(value, coins, i) {
+    console.log(coins, i, value);
+    if (i < 4) {
+      coins[i] = (value - (value % coinsValue[i])) / coinsValue[i];
+      return getNumber(value - coins[i] * coinsValue[i], coins, ++i);
+    }
+  };
 
-  //(value) % conv['Quarters']% > 
+  cents > 0 ? (value = getNumber(Math.floor(cents), coins, 0, true)) : null;
 
-  const getNumber = (value, coinValue) => (value - (value % coinValue)) / coinValue
-  
-  let i = getNumber(value, conv['Quarters'])
-
-  return { 'Nickels': l, 'Pennies': k, 'Dimes': j, 'Quarters': i }
-
+  return {
+    Nickels: coins[2],
+    Pennies: coins[3],
+    Dimes: coins[1],
+    Quarters: coins[0]
+  };
 }
 
-console.log(looseChange(122))
+console.log(looseChange(7.9));
 
+/*
 const testCallBack = function(i, value){
   if(i < 5){
+    i = i + 1
     console.log(i)
     return testCallBack(i++, value)
   } else {
@@ -26,4 +34,4 @@ const testCallBack = function(i, value){
   }
 }
 
-console.log(testCallBck(0, 10))
+console.log(testCallBack(0, 10))*/
